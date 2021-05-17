@@ -1,8 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"github.com/enescakir/emoji"
+)
 
 func main() {
 
-	fmt.Println("hello world")
+	fmt.Printf("Hello, my name is Dima Larin. I`ll work on progress-api %v \n", emoji.WavingHand.Tone(emoji.Dark))
 }
