@@ -2,29 +2,53 @@
 package utils
 
 import (
+	"errors"
 	"math"
 	"sync"
 )
 
-//SplitSlice  using for separate slice for new slices
-func SplitSlice(input []int, n int) [][]int {
+func SplitSlice(input []int, n int) ([][]int, error) {
 
-	if tmp := [][]int{{}}; n <= 0 || len(input) == 0 || input == nil {
-		return tmp // почему нельзя return [][]int или return [[]] ??????
+	if n <= 0 || len(input) == 0 || input == nil {
+		return nil, errors.New("not correct input parameters")
+	}
+
+	// если считать в целых числах еще надо будет использовать операцию %
+	newSliceLen := int(math.Ceil(float64(len(input)) / float64(n))) // вынес в отдельную переменную гораздо лушче стало
+	mainSlice := make([][]int, newSliceLen)
+
+	for i := 0; i < newSliceLen; i++ {
+		length := n
+		if (i*n + n) > len(input) {
+			length = len(input) - i*n
+		}
+		mainSlice[i] = input[i*n : i*n+length]
+	}
+	return mainSlice, nil
+}
+
+//SplitSlice  using for separate slice for new slices
+//this function came due to my interest just for me
+func SplitSliceAsynchDeepCopy(input []int, n int) ([][]int, error) {
+
+	if n <= 0 || len(input) == 0 || input == nil {
+		return nil, errors.New("not correct input parameters")
 	}
 
 	var wg sync.WaitGroup
-	mainSlice := make([][]int, int(math.Ceil(float64(len(input))/float64(n))))
+	// если считать в целых числах еще надо будет использовать операцию %
+	newSliceLen := int(math.Ceil(float64(len(input)) / float64(n))) // вынес в отдельную переменную гораздо лушче стало
+	mainSlice := make([][]int, newSliceLen)
 
-	for i := 0; i < int(math.Ceil(float64(len(input))/float64(n))); i++ {
+	for i := 0; i < newSliceLen; i++ {
 		wg.Add(1)
-		addSliceToMainSlice(&wg, &mainSlice, i, &input, i*n, n)
+		go addSliceToMainSliceDeepCopy(&wg, &mainSlice, i, &input, i*n, n) // в комит в тот раз не попало go :((( сейчас должный быть операции асинхронны
 	}
 	wg.Wait()
-	return mainSlice
+	return mainSlice, nil
 }
 
-func addSliceToMainSlice(wg *sync.WaitGroup, mainSlice *[][]int, pos int, input *[]int, from int, length int) {
+func addSliceToMainSliceDeepCopy(wg *sync.WaitGroup, mainSlice *[][]int, pos int, input *[]int, from int, length int) {
 
 	defer func() { wg.Done() }()
 
