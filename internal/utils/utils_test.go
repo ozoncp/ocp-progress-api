@@ -8,75 +8,43 @@ import (
 	"github.com/ozoncp/ocp-progress-api/internal/utils"
 )
 
+type funcsToSplits func([]int, int) ([][]int, error)
+
+func testSlpitSlice(f funcsToSplits, t *testing.T) {
+
+	type TestCase struct {
+		NumberOfTest uint
+		InputSlice   []int
+		N            int
+		OutPut       [][]int
+	}
+
+	testCases := []TestCase{
+		{1, []int{1, 2, 3, 4, 5, 6}, 2, [][]int{{1, 2}, {3, 4}, {5, 6}}},
+		{2, []int{1, 2, 3, 4, 5, 6}, 4, [][]int{{1, 2, 3, 4}, {5, 6}}},
+		{3, []int{1, 2, 3, 4, 5, 6}, 7, [][]int{{1, 2, 3, 4, 5, 6}}},
+		{4, nil, 2, nil},
+		{5, []int{1, 2, 3}, 0, nil},
+	}
+
+	for _, testCase := range testCases {
+		res, _ := f(testCase.InputSlice, testCase.N)
+		if !reflect.DeepEqual(res, testCase.OutPut) {
+			fmt.Println("TC number = ", testCase.NumberOfTest, " Fail result: ", res, " Correct anser = ", testCase.OutPut)
+			t.Error("fail ")
+			return
+		}
+		fmt.Println("Good result: ", res)
+
+	}
+}
+
 func TestSplitSlice(t *testing.T) {
-	array := []int{1, 2, 3, 4, 5, 6}
+	testSlpitSlice(utils.SplitSlice, t)
+}
 
-	n := 2
-	correctAns := [][]int{{1, 2}, {3, 4}, {5, 6}}
-
-	res := utils.SplitSlice(array, n)
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
-
-	n = 4
-	correctAns = [][]int{{1, 2, 3, 4}, {5, 6}}
-
-	res = utils.SplitSlice(array, n)
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
-
-	n = 7
-	correctAns = [][]int{{1, 2, 3, 4, 5, 6}}
-
-	res = utils.SplitSlice(array, n)
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
-
-	array = []int{}
-	n = 2
-	correctAns = [][]int{{}}
-
-	res = utils.SplitSlice(array, n)
-
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
-
-	var nilArray []int
-	n = 0
-
-	res = utils.SplitSlice(nilArray, n)
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
-
-	n = 2
-
-	res = utils.SplitSlice(nilArray, n)
-	if !reflect.DeepEqual(res, correctAns) {
-		fmt.Println("Fail result: ", res)
-		t.Error("fail")
-		return
-	}
-	fmt.Println("Good result: ", res)
+func TestSplitSliceAsynchDeepCopy(t *testing.T) {
+	testSlpitSlice(utils.SplitSliceAsynchDeepCopy, t)
 }
 
 func TestReverseKeyValue(t *testing.T) {
