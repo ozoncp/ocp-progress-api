@@ -95,6 +95,7 @@ func FilterSlice(inputSlice []string, blackList []string) []string {
 	return outputSlice
 }
 
+//SplitToBulks split slice of Pogress struct to slice of bulks
 func SplitToBulks(users []progress.Pogress, n int) ([][]progress.Pogress, error) {
 	if n <= 0 || len(users) == 0 || users == nil {
 		return nil, errors.New("not correct input parameters")
@@ -113,21 +114,23 @@ func SplitToBulks(users []progress.Pogress, n int) ([][]progress.Pogress, error)
 	return mainSlice, nil
 }
 
-func CreatMapFromSlise(users []progress.Pogress) (map[uint]progress.Pogress, error) {
+//CreatMapFromSlise creat map from slice of Pogress struct
+func CreatMapFromSlise(users []progress.Pogress) (map[uint64]progress.Pogress, error) {
 	if len(users) == 0 || users == nil {
 		return nil, errors.New("not correct input parameters")
 	}
 
-	resalt := make(map[uint]progress.Pogress, len(users))
+	resalt := make(map[uint64]progress.Pogress, len(users))
 
 	for _, progesValue := range users {
-		if _, foundKey := resalt[progesValue.UserId]; foundKey {
+		if _, foundKey := resalt[progesValue.Id]; foundKey {
 			// как я понял ни разработчик ни программа не должны паниковать
 			//panic(fmt.Sprintf("duplicate value %d", progesValue.UserId))
+
 			// по этому возвращаю nil и ошибку
-			return nil, errors.New("duplicate value " + string(progesValue.UserId))
+			return nil, errors.New("duplicate value " + string(progesValue.Id))
 		}
-		resalt[progesValue.UserId] = progesValue
+		resalt[progesValue.Id] = progesValue
 	}
 	return resalt, nil
 }
