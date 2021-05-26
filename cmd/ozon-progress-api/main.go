@@ -18,7 +18,7 @@ func main() {
 
 	fmt.Printf("Hello, my name is Dima Larin. I`ll work on progress-api %v \n", emoji.WavingHand.Tone(emoji.Dark))
 
-	myTests()
+	//myTests()
 	openAndCloseFile(5)
 }
 
@@ -86,4 +86,5 @@ func myTests() {
 	v = new(int)
 	fmt.Println(*v) //
 	fmt.Println(v)  //0xc00004c088
+
 }

@@ -5,6 +5,8 @@ import (
 	"errors"
 	"math"
 	"sync"
+
+	"github.com/ozoncp/ocp-progress-api/core/progress"
 )
 
 func SplitSlice(input []int, n int) ([][]int, error) {
@@ -91,4 +93,41 @@ func FilterSlice(inputSlice []string, blackList []string) []string {
 	}
 
 	return outputSlice
+}
+
+func SplitToBulks(users []progress.Pogress, n int) ([][]progress.Pogress, error) {
+	if n <= 0 || len(users) == 0 || users == nil {
+		return nil, errors.New("not correct input parameters")
+	}
+
+	newSliceLen := int(math.Ceil(float64(len(users)) / float64(n)))
+	mainSlice := make([][]progress.Pogress, newSliceLen)
+
+	for i := 0; i < newSliceLen; i++ {
+		length := n
+		if (i*n + n) > len(users) {
+			length = len(users) - i*n
+		}
+		mainSlice[i] = users[i*n : i*n+length]
+	}
+	return mainSlice, nil
+}
+
+func CreatMapFromSlise(users []progress.Pogress) (map[uint]progress.Pogress, error) {
+	if len(users) == 0 || users == nil {
+		return nil, errors.New("not correct input parameters")
+	}
+
+	resalt := make(map[uint]progress.Pogress, len(users))
+
+	for _, progesValue := range users {
+		if _, foundKey := resalt[progesValue.UserId]; foundKey {
+			// как я понял ни разработчик ни программа не должны паниковать
+			//panic(fmt.Sprintf("duplicate value %d", progesValue.UserId))
+			// по этому возвращаю nil и ошибку
+			return nil, errors.New("duplicate value " + string(progesValue.UserId))
+		}
+		resalt[progesValue.UserId] = progesValue
+	}
+	return resalt, nil
 }
