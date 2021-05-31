@@ -19,7 +19,8 @@ func main() {
 	fmt.Printf("Hello, my name is Dima Larin. I`ll work on progress-api %v \n", emoji.WavingHand.Tone(emoji.Dark))
 
 	//myTests()
-	openAndCloseFile(5)
+	//openAndCloseFile(5)
+	testWithInterface()
 }
 
 func openAndCloseFile(count int) error {
@@ -86,5 +87,41 @@ func myTests() {
 	v = new(int)
 	fmt.Println(*v) //
 	fmt.Println(v)  //0xc00004c088
+
+}
+
+type Sl interface {
+	String() string
+}
+
+type User struct {
+	Name string
+}
+
+func (u *User) String() string {
+	if u != nil {
+		return "LOLO  = " + u.Name
+	}
+	return ""
+}
+
+func foo(s Sl) {
+	fmt.Println(s.String())
+}
+
+func testWithInterface() {
+	user := &User{"Anna"}
+	foo(user)
+	fmt.Println(user)
+
+	user1 := &User{"Rita"}
+
+	//var stringer Sl
+
+	//stringer = user1
+
+	user1.Name = "Masha"
+
+	fmt.Println(user1)
 
 }
