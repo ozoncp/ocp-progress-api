@@ -1,6 +1,8 @@
 package flusher
 
 import (
+	"fmt"
+
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
 	"github.com/ozoncp/ocp-progress-api/internal/utils"
@@ -31,6 +33,7 @@ func (f *flusher) Flush(users []progress.Pogress) []progress.Pogress {
 	}
 
 	for index, val := range chunks {
+		fmt.Println("LOLOLO")
 		if err := f.storage.AddProgress(val); err != nil {
 			return users[index*f.chunkSize:]
 		}
