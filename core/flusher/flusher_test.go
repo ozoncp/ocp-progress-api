@@ -43,14 +43,14 @@ var _ = Describe("Flusher", func() {
 		ctrl.Finish()
 	})
 
-	Context("Flushed successfully", func() {
+	Context("Zero input data", func() {
 		BeforeEach(func() {
 			chSize = 2
 			toFlush = []progress.Pogress{{}}
 
 			mockRepo.EXPECT().AddProgress(gomock.Any()).Return(nil).MinTimes(1)
 		})
-		It("", func() {
+		It("Rez", func() {
 			//Expect(err).Should(BeNil())
 			Expect(failedToFlush).Should(BeEmpty())
 		})
