@@ -1,6 +1,6 @@
 package progress
 
-type Pogress struct {
+type Progress struct {
 	Id             uint64
 	ClassroomId    uint
 	PresentationId uint

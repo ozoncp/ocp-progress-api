@@ -3,8 +3,8 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"math"
-	"strconv"
 	"sync"
 
 	"github.com/ozoncp/ocp-progress-api/core/progress"
@@ -97,13 +97,13 @@ func FilterSlice(inputSlice []string, blackList []string) []string {
 }
 
 //SplitToBulks split slice of Pogress struct to slice of bulks
-func SplitToBulks(users []progress.Pogress, n int) ([][]progress.Pogress, error) {
+func SplitToBulks(users []progress.Progress, n int) ([][]progress.Progress, error) {
 	if n <= 0 || len(users) == 0 || users == nil {
 		return nil, errors.New("not correct input parameters")
 	}
 
 	newSliceLen := int(math.Ceil(float64(len(users)) / float64(n)))
-	mainSlice := make([][]progress.Pogress, newSliceLen)
+	mainSlice := make([][]progress.Progress, newSliceLen)
 
 	for i := 0; i < newSliceLen; i++ {
 		length := n
@@ -116,12 +116,12 @@ func SplitToBulks(users []progress.Pogress, n int) ([][]progress.Pogress, error)
 }
 
 //CreatMapFromSlise creat map from slice of Pogress struct
-func CreatMapFromSlise(users []progress.Pogress) (map[uint64]progress.Pogress, error) {
+func CreatMapFromSlise(users []progress.Progress) (map[uint64]progress.Progress, error) {
 	if len(users) == 0 || users == nil {
 		return nil, errors.New("not correct input parameters")
 	}
 
-	resalt := make(map[uint64]progress.Pogress, len(users))
+	resalt := make(map[uint64]progress.Progress, len(users))
 
 	for _, progesValue := range users {
 		if _, foundKey := resalt[progesValue.Id]; foundKey {
@@ -129,7 +129,7 @@ func CreatMapFromSlise(users []progress.Pogress) (map[uint64]progress.Pogress, e
 			//panic(fmt.Sprintf("duplicate value %d", progesValue.UserId))
 
 			// по этому возвращаю nil и ошибку
-			return nil, errors.New("duplicate value " + strconv.FormatUint(progesValue.Id, 10))
+			return nil, fmt.Errorf("duplicate value %d", progesValue.Id)
 		}
 		resalt[progesValue.Id] = progesValue
 	}

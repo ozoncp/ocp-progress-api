@@ -1,15 +1,13 @@
 package flusher
 
 import (
-	"fmt"
-
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
 	"github.com/ozoncp/ocp-progress-api/internal/utils"
 )
 
 type Flusher interface {
-	Flush(notes []progress.Pogress) []progress.Pogress
+	Flush(notes []progress.Progress) []progress.Progress
 }
 
 type flusher struct {
@@ -24,18 +22,17 @@ func New(storage repo.Repo, chSize int) Flusher {
 	}
 }
 
-func (f *flusher) Flush(users []progress.Pogress) []progress.Pogress {
+func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
 
-	chunks, err := utils.SplitToBulks(users, f.chunkSize)
+	chunks, err := utils.SplitToBulks(progressSlice, f.chunkSize)
 
 	if err != nil {
-		return users
+		return progressSlice
 	}
 
 	for index, val := range chunks {
-		fmt.Println("LOLOLO")
 		if err := f.storage.AddProgress(val); err != nil {
-			return users[index*f.chunkSize:]
+			return progressSlice[index*f.chunkSize:]
 		}
 	}
 
