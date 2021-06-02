@@ -4,6 +4,7 @@ package utils
 import (
 	"errors"
 	"math"
+	"strconv"
 	"sync"
 
 	"github.com/ozoncp/ocp-progress-api/core/progress"
@@ -128,7 +129,7 @@ func CreatMapFromSlise(users []progress.Pogress) (map[uint64]progress.Pogress, e
 			//panic(fmt.Sprintf("duplicate value %d", progesValue.UserId))
 
 			// по этому возвращаю nil и ошибку
-			return nil, errors.New("duplicate value " + string(progesValue.Id))
+			return nil, errors.New("duplicate value " + strconv.FormatUint(progesValue.Id, 10))
 		}
 		resalt[progesValue.Id] = progesValue
 	}

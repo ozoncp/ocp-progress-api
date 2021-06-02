@@ -19,7 +19,7 @@ func main() {
 	fmt.Printf("Hello, my name is Dima Larin. I`ll work on progress-api %v \n", emoji.WavingHand.Tone(emoji.Dark))
 
 	//myTests()
-	//openAndCloseFile(5)
+	openAndCloseFile(5)
 	testWithInterface()
 }
 
