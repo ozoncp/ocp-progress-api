@@ -17,7 +17,7 @@ func main() {
 
 	fmt.Printf("Hello, my name is Dima Larin. I`ll work on progress-api %v \n", emoji.WavingHand.Tone(emoji.Dark))
 
-	openAndCloseFile(5)
+	_ = openAndCloseFile(5)
 }
 
 func openAndCloseFile(count int) error {
