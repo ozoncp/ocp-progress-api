@@ -1,6 +1,8 @@
 package flusher_test
 
 import (
+	"errors"
+
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
@@ -23,15 +25,7 @@ var _ = Describe("Flusher", func() {
 	BeforeEach(func() {
 		ctrl = gomock.NewController(GinkgoT())
 		mockRepo = mocks.NewMockRepo(ctrl)
-		/*
-			toFlush = []progress.Pogress{
-				{Id: 1, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
-				{Id: 2, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
-				{Id: 3, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
-				{Id: 4, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
-				{Id: 5, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
-			}
-		*/
+
 	})
 
 	JustBeforeEach(func() {
@@ -53,6 +47,29 @@ var _ = Describe("Flusher", func() {
 		It("Rez", func() {
 			//Expect(err).Should(BeNil())
 			Expect(failedToFlush).Should(BeEmpty())
+		})
+	})
+
+	Context("Errors in AddProgress", func() {
+		BeforeEach(func() {
+			chSize = 3
+
+			toFlush = []progress.Progress{
+				{Id: 1, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
+				{Id: 2, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
+				{Id: 3, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
+				{Id: 4, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
+				{Id: 5, ClassroomId: 1, PresentationId: 1, SlideId: 1, UserId: 1},
+			}
+
+			failedToFlush = toFlush
+			toFlush = []progress.Progress{{}}
+
+			mockRepo.EXPECT().AddProgress(gomock.Any()).Return(errors.New("add prize error")).MinTimes(1)
+		})
+		It("Errors", func() {
+			//Expect(err).Should(BeNil())
+			Expect(failedToFlush).Should(BeEquivalentTo(toFlush))
 		})
 	})
 })
