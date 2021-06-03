@@ -15,8 +15,8 @@ var _ = Describe("Flusher", func() {
 		ctrl          *gomock.Controller
 		mockRepo      *mocks.MockRepo
 		f             flusher.Flusher
-		toFlush       []progress.Pogress
-		failedToFlush []progress.Pogress
+		toFlush       []progress.Progress
+		failedToFlush []progress.Progress
 		chSize        int
 	)
 
@@ -46,7 +46,7 @@ var _ = Describe("Flusher", func() {
 	Context("Zero input data", func() {
 		BeforeEach(func() {
 			chSize = 2
-			toFlush = []progress.Pogress{{}}
+			toFlush = []progress.Progress{{}}
 
 			mockRepo.EXPECT().AddProgress(gomock.Any()).Return(nil).MinTimes(1)
 		})

@@ -35,7 +35,7 @@ func (m *MockRepo) EXPECT() *MockRepoMockRecorder {
 }
 
 // AddProgress mocks base method.
-func (m *MockRepo) AddProgress(arg0 []progress.Pogress) error {
+func (m *MockRepo) AddProgress(arg0 []progress.Progress) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "AddProgress", arg0)
 	ret0, _ := ret[0].(error)
@@ -49,10 +49,10 @@ func (mr *MockRepoMockRecorder) AddProgress(arg0 interface{}) *gomock.Call {
 }
 
 // DescribeProgress mocks base method.
-func (m *MockRepo) DescribeProgress(arg0 uint64) (*progress.Pogress, error) {
+func (m *MockRepo) DescribeProgress(arg0 uint64) (*progress.Progress, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "DescribeProgress", arg0)
-	ret0, _ := ret[0].(*progress.Pogress)
+	ret0, _ := ret[0].(*progress.Progress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -64,10 +64,10 @@ func (mr *MockRepoMockRecorder) DescribeProgress(arg0 interface{}) *gomock.Call 
 }
 
 // ListProgress mocks base method.
-func (m *MockRepo) ListProgress(arg0, arg1 uint64) ([]progress.Pogress, error) {
+func (m *MockRepo) ListProgress(arg0, arg1 uint64) ([]progress.Progress, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListProgress", arg0, arg1)
-	ret0, _ := ret[0].([]progress.Pogress)
+	ret0, _ := ret[0].([]progress.Progress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
