@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+//Alarmer it is timer to creat signals
+//Deprecated: It is good but useless
 type Alarmer interface {
 	Alarm() <-chan struct{}
 	Init()
