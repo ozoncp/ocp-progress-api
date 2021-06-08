@@ -36,7 +36,7 @@ func New(capacity uint, flusher flusher.Flusher, interval time.Duration) (Saver,
 		progressChannel: make(chan progress.Progress),
 		progressSlice:   make([]progress.Progress, capacity),
 		lostNotAllData:  false,
-		endSignal:       make(chan struct{}),
+		endSignal:       make(chan struct{}, 1),
 	}, nil
 }
 
@@ -67,6 +67,7 @@ func (s *saver) Init(lostNotAllData bool) {
 
 func (s *saver) Close() {
 	defer close(s.endSignal)
+	defer close(s.progressChannel)
 
 	s.endSignal <- struct{}{}
 	s.flushData()
