@@ -1,0 +1,237 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/ocp-progress-api/ocp-progress-api.proto",
+    "version": "version not set"
+  },
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/Progresss/create/v1": {
+      "post": {
+        "summary": "Создаёт новый фрагмент прогресса",
+        "operationId": "OcpProgressApi_CreateProgressV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiCreateProgressV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    },
+    "/srogresss/describe/v1/{progress_id}": {
+      "get": {
+        "summary": "Возвращает фрагмент прогресса",
+        "operationId": "OcpProgressApi_DescribeProgressV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiDescribeProgressV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "progress_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    },
+    "/srogresss/list/v1": {
+      "get": {
+        "summary": "Возвращает список фрагментов прогресса",
+        "operationId": "OcpProgressApi_ListProgresssV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListProgresssV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    },
+    "/srogresss/remove/v1/{progress_id}": {
+      "get": {
+        "summary": "Удаляет фрагмент прогресса",
+        "operationId": "OcpProgressApi_RemoveProgressV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiRemoveProgressV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "progress_id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "uint64"
+          }
+        ],
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "apiCreateProgressV1Response": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "apiDescribeProgressV1Response": {
+      "type": "object",
+      "properties": {
+        "progress": {
+          "$ref": "#/definitions/apiProgress"
+        }
+      }
+    },
+    "apiListProgresssV1Response": {
+      "type": "object",
+      "properties": {
+        "progresss": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/apiProgress"
+          }
+        }
+      }
+    },
+    "apiProgress": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "classroomId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "presentationId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "slideId": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "userId": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "apiRemoveProgressV1Response": {
+      "type": "object",
+      "properties": {
+        "has_removed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "type_url": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string",
+          "format": "byte"
+        }
+      }
+    },
+    "runtimeError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "string"
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
