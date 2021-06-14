@@ -76,7 +76,7 @@ message RemoveProgressV1Response {
 
 
 message Progress {
-    uint64 id             = 1;
+	uint64 id             = 1;
 	uint64 classroomId    = 2;
 	uint64 presentationId = 3;
 	uint64 slideId        = 4;

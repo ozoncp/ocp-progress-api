@@ -12,7 +12,6 @@ import (
 
 const (
 	errProjectListEmpty = "not found any projects"
-	errProjectNotFound  = "project not found"
 	errProjectCreate    = "creating project fails"
 	errProjectRemove    = "removing project fails"
 )
@@ -35,7 +34,10 @@ func (a *api) CreateProgressV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	log.Info().Msgf("Got CreateProgressV1: {ClassroomId: %d, UserId: %d}", req.ClassroomId, req.UserId)
+	log.Info().
+		Uint64("ClassroomId", req.ClassroomId).
+		Uint64("UserId", req.UserId).
+		Msg("Got CreateProgressV1")
 
 	err := status.Error(codes.NotFound, errProjectCreate)
 	return nil, err
@@ -51,7 +53,10 @@ func (a *api) DescribeProgressV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	log.Info().Msgf("Got DescribeProgressV1: {ProgressId: %d}", req.ProgressId)
+	log.Info().
+		Uint64("ProgressId", req.ProgressId).
+		Msg("Got DescribeProgressV1")
+
 	err := status.Error(codes.NotFound, errProjectCreate)
 	return nil, err
 }
@@ -66,7 +71,10 @@ func (a *api) ListProgressV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	log.Info().Msgf("Got ListProgressV1: {limit: %d, offset: %d}", req.Limit, req.Offset)
+	log.Info().
+		Uint64("Limit", req.Limit).
+		Uint64("Offset", req.Offset).
+		Msg("Got ListProgressV1")
 
 	err := status.Error(codes.NotFound, errProjectListEmpty)
 	return nil, err
@@ -82,7 +90,9 @@ func (a *api) RemoveProgressV1(
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	log.Info().Msgf("Got RemoveProgressV1: {ProgressId: %d}", req.ProgressId)
+	log.Info().
+		Uint64("ProgressId", req.ProgressId).
+		Msg("Got RemoveProgressV1")
 
 	err := status.Error(codes.NotFound, errProjectRemove)
 	return nil, err
