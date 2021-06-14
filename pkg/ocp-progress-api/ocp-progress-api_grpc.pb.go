@@ -23,7 +23,7 @@ type OcpProgressApiClient interface {
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(ctx context.Context, in *DescribeProgressV1Request, opts ...grpc.CallOption) (*DescribeProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
-	ListProgresssV1(ctx context.Context, in *ListProgresssV1Request, opts ...grpc.CallOption) (*ListProgresssV1Response, error)
+	ListProgressV1(ctx context.Context, in *ListProgressV1Request, opts ...grpc.CallOption) (*ListProgressV1Response, error)
 	// Удаляет фрагмент прогресса
 	RemoveProgressV1(ctx context.Context, in *RemoveProgressV1Request, opts ...grpc.CallOption) (*RemoveProgressV1Response, error)
 }
@@ -54,9 +54,9 @@ func (c *ocpProgressApiClient) DescribeProgressV1(ctx context.Context, in *Descr
 	return out, nil
 }
 
-func (c *ocpProgressApiClient) ListProgresssV1(ctx context.Context, in *ListProgresssV1Request, opts ...grpc.CallOption) (*ListProgresssV1Response, error) {
-	out := new(ListProgresssV1Response)
-	err := c.cc.Invoke(ctx, "/ocp.progress.api.OcpProgressApi/ListProgresssV1", in, out, opts...)
+func (c *ocpProgressApiClient) ListProgressV1(ctx context.Context, in *ListProgressV1Request, opts ...grpc.CallOption) (*ListProgressV1Response, error) {
+	out := new(ListProgressV1Response)
+	err := c.cc.Invoke(ctx, "/ocp.progress.api.OcpProgressApi/ListProgressV1", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ type OcpProgressApiServer interface {
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(context.Context, *DescribeProgressV1Request) (*DescribeProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
-	ListProgresssV1(context.Context, *ListProgresssV1Request) (*ListProgresssV1Response, error)
+	ListProgressV1(context.Context, *ListProgressV1Request) (*ListProgressV1Response, error)
 	// Удаляет фрагмент прогресса
 	RemoveProgressV1(context.Context, *RemoveProgressV1Request) (*RemoveProgressV1Response, error)
 	mustEmbedUnimplementedOcpProgressApiServer()
@@ -97,8 +97,8 @@ func (UnimplementedOcpProgressApiServer) CreateProgressV1(context.Context, *Crea
 func (UnimplementedOcpProgressApiServer) DescribeProgressV1(context.Context, *DescribeProgressV1Request) (*DescribeProgressV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProgressV1 not implemented")
 }
-func (UnimplementedOcpProgressApiServer) ListProgresssV1(context.Context, *ListProgresssV1Request) (*ListProgresssV1Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListProgresssV1 not implemented")
+func (UnimplementedOcpProgressApiServer) ListProgressV1(context.Context, *ListProgressV1Request) (*ListProgressV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListProgressV1 not implemented")
 }
 func (UnimplementedOcpProgressApiServer) RemoveProgressV1(context.Context, *RemoveProgressV1Request) (*RemoveProgressV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveProgressV1 not implemented")
@@ -152,20 +152,20 @@ func _OcpProgressApi_DescribeProgressV1_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OcpProgressApi_ListProgresssV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListProgresssV1Request)
+func _OcpProgressApi_ListProgressV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListProgressV1Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OcpProgressApiServer).ListProgresssV1(ctx, in)
+		return srv.(OcpProgressApiServer).ListProgressV1(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/ocp.progress.api.OcpProgressApi/ListProgresssV1",
+		FullMethod: "/ocp.progress.api.OcpProgressApi/ListProgressV1",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OcpProgressApiServer).ListProgresssV1(ctx, req.(*ListProgresssV1Request))
+		return srv.(OcpProgressApiServer).ListProgressV1(ctx, req.(*ListProgressV1Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -204,8 +204,8 @@ var OcpProgressApi_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _OcpProgressApi_DescribeProgressV1_Handler,
 		},
 		{
-			MethodName: "ListProgresssV1",
-			Handler:    _OcpProgressApi_ListProgresssV1_Handler,
+			MethodName: "ListProgressV1",
+			Handler:    _OcpProgressApi_ListProgressV1_Handler,
 		},
 		{
 			MethodName: "RemoveProgressV1",

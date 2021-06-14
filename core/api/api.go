@@ -56,17 +56,17 @@ func (a *api) DescribeProgressV1(
 	return nil, err
 }
 
-func (a *api) ListProgresssV1(
+func (a *api) ListProgressV1(
 	ctx context.Context,
-	req *desc.ListProgresssV1Request) (
-	*desc.ListProgresssV1Response,
+	req *desc.ListProgressV1Request) (
+	*desc.ListProgressV1Response,
 	error) {
 
 	if err := req.Validate(); err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	log.Info().Msgf("Got ListProgresssV1: {limit: %d, offset: %d}", req.Limit, req.Offset)
+	log.Info().Msgf("Got ListProgressV1: {limit: %d, offset: %d}", req.Limit, req.Offset)
 
 	err := status.Error(codes.NotFound, errProjectListEmpty)
 	return nil, err

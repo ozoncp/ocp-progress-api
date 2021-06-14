@@ -12,28 +12,28 @@ service OcpProgressApi {
 	//  Создаёт новый фрагмент прогресса
 	rpc CreateProgressV1(CreateProgressV1Request) returns (CreateProgressV1Response) {
 		option (google.api.http) = {
-			post: "/Progresss/create/v1"
+			post: "/Progress/create/v1"
 		};
 	}
 
 	// Возвращает фрагмент прогресса
 	rpc DescribeProgressV1(DescribeProgressV1Request) returns (DescribeProgressV1Response) {
 		option (google.api.http) = {
-			get: "/srogresss/describe/v1/{progress_id}"
+			get: "/srogress/describe/v1/{progress_id}"
 		};
     }
 	
 	// Возвращает список фрагментов прогресса
-	rpc ListProgresssV1(ListProgresssV1Request) returns (ListProgresssV1Response) {
+	rpc ListProgressV1(ListProgressV1Request) returns (ListProgressV1Response) {
 		option (google.api.http) = {
-            get: "/srogresss/list/v1"
+            get: "/srogress/list/v1"
         };
 	}
 	
 	// Удаляет фрагмент прогресса
 	rpc RemoveProgressV1(RemoveProgressV1Request) returns (RemoveProgressV1Response) {
 		option (google.api.http) = {
-			get: "/srogresss/remove/v1/{progress_id}"
+			get: "/srogress/remove/v1/{progress_id}"
 		};
 	}
 }
@@ -58,12 +58,12 @@ message DescribeProgressV1Response {
 }
  
 // Получение списка:
-message ListProgresssV1Request {
+message ListProgressV1Request {
 	uint64 limit = 1;
 	uint64 offset = 2;
 }
-message ListProgresssV1Response {
-	repeated Progress progresss = 1;
+message ListProgressV1Response {
+	repeated Progress progress = 1;
 }
 
 // Удаление:

@@ -11,7 +11,7 @@
     "application/json"
   ],
   "paths": {
-    "/Progresss/create/v1": {
+    "/Progress/create/v1": {
       "post": {
         "summary": "Создаёт новый фрагмент прогресса",
         "operationId": "OcpProgressApi_CreateProgressV1",
@@ -34,7 +34,7 @@
         ]
       }
     },
-    "/srogresss/describe/v1/{progress_id}": {
+    "/srogress/describe/v1/{progress_id}": {
       "get": {
         "summary": "Возвращает фрагмент прогресса",
         "operationId": "OcpProgressApi_DescribeProgressV1",
@@ -66,15 +66,15 @@
         ]
       }
     },
-    "/srogresss/list/v1": {
+    "/srogress/list/v1": {
       "get": {
         "summary": "Возвращает список фрагментов прогресса",
-        "operationId": "OcpProgressApi_ListProgresssV1",
+        "operationId": "OcpProgressApi_ListProgressV1",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/apiListProgresssV1Response"
+              "$ref": "#/definitions/apiListProgressV1Response"
             }
           },
           "default": {
@@ -105,7 +105,7 @@
         ]
       }
     },
-    "/srogresss/remove/v1/{progress_id}": {
+    "/srogress/remove/v1/{progress_id}": {
       "get": {
         "summary": "Удаляет фрагмент прогресса",
         "operationId": "OcpProgressApi_RemoveProgressV1",
@@ -156,10 +156,10 @@
         }
       }
     },
-    "apiListProgresssV1Response": {
+    "apiListProgressV1Response": {
       "type": "object",
       "properties": {
-        "progresss": {
+        "progress": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/apiProgress"

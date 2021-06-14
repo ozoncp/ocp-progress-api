@@ -328,10 +328,10 @@ var _ interface {
 	ErrorName() string
 } = DescribeProgressV1ResponseValidationError{}
 
-// Validate checks the field values on ListProgresssV1Request with the rules
+// Validate checks the field values on ListProgressV1Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
-func (m *ListProgresssV1Request) Validate() error {
+func (m *ListProgressV1Request) Validate() error {
 	if m == nil {
 		return nil
 	}
@@ -343,9 +343,9 @@ func (m *ListProgresssV1Request) Validate() error {
 	return nil
 }
 
-// ListProgresssV1RequestValidationError is the validation error returned by
-// ListProgresssV1Request.Validate if the designated constraints aren't met.
-type ListProgresssV1RequestValidationError struct {
+// ListProgressV1RequestValidationError is the validation error returned by
+// ListProgressV1Request.Validate if the designated constraints aren't met.
+type ListProgressV1RequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -353,24 +353,24 @@ type ListProgresssV1RequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListProgresssV1RequestValidationError) Field() string { return e.field }
+func (e ListProgressV1RequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListProgresssV1RequestValidationError) Reason() string { return e.reason }
+func (e ListProgressV1RequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListProgresssV1RequestValidationError) Cause() error { return e.cause }
+func (e ListProgressV1RequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListProgresssV1RequestValidationError) Key() bool { return e.key }
+func (e ListProgressV1RequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListProgresssV1RequestValidationError) ErrorName() string {
-	return "ListProgresssV1RequestValidationError"
+func (e ListProgressV1RequestValidationError) ErrorName() string {
+	return "ListProgressV1RequestValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ListProgresssV1RequestValidationError) Error() string {
+func (e ListProgressV1RequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -382,14 +382,14 @@ func (e ListProgresssV1RequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListProgresssV1Request.%s: %s%s",
+		"invalid %sListProgressV1Request.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListProgresssV1RequestValidationError{}
+var _ error = ListProgressV1RequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -397,23 +397,23 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListProgresssV1RequestValidationError{}
+} = ListProgressV1RequestValidationError{}
 
-// Validate checks the field values on ListProgresssV1Response with the rules
+// Validate checks the field values on ListProgressV1Response with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
-func (m *ListProgresssV1Response) Validate() error {
+func (m *ListProgressV1Response) Validate() error {
 	if m == nil {
 		return nil
 	}
 
-	for idx, item := range m.GetProgresss() {
+	for idx, item := range m.GetProgress() {
 		_, _ = idx, item
 
 		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
 			if err := v.Validate(); err != nil {
-				return ListProgresssV1ResponseValidationError{
-					field:  fmt.Sprintf("Progresss[%v]", idx),
+				return ListProgressV1ResponseValidationError{
+					field:  fmt.Sprintf("Progress[%v]", idx),
 					reason: "embedded message failed validation",
 					cause:  err,
 				}
@@ -425,9 +425,9 @@ func (m *ListProgresssV1Response) Validate() error {
 	return nil
 }
 
-// ListProgresssV1ResponseValidationError is the validation error returned by
-// ListProgresssV1Response.Validate if the designated constraints aren't met.
-type ListProgresssV1ResponseValidationError struct {
+// ListProgressV1ResponseValidationError is the validation error returned by
+// ListProgressV1Response.Validate if the designated constraints aren't met.
+type ListProgressV1ResponseValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -435,24 +435,24 @@ type ListProgresssV1ResponseValidationError struct {
 }
 
 // Field function returns field value.
-func (e ListProgresssV1ResponseValidationError) Field() string { return e.field }
+func (e ListProgressV1ResponseValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e ListProgresssV1ResponseValidationError) Reason() string { return e.reason }
+func (e ListProgressV1ResponseValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e ListProgresssV1ResponseValidationError) Cause() error { return e.cause }
+func (e ListProgressV1ResponseValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e ListProgresssV1ResponseValidationError) Key() bool { return e.key }
+func (e ListProgressV1ResponseValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e ListProgresssV1ResponseValidationError) ErrorName() string {
-	return "ListProgresssV1ResponseValidationError"
+func (e ListProgressV1ResponseValidationError) ErrorName() string {
+	return "ListProgressV1ResponseValidationError"
 }
 
 // Error satisfies the builtin error interface
-func (e ListProgresssV1ResponseValidationError) Error() string {
+func (e ListProgressV1ResponseValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -464,14 +464,14 @@ func (e ListProgresssV1ResponseValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sListProgresssV1Response.%s: %s%s",
+		"invalid %sListProgressV1Response.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = ListProgresssV1ResponseValidationError{}
+var _ error = ListProgressV1ResponseValidationError{}
 
 var _ interface {
 	Field() string
@@ -479,7 +479,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = ListProgresssV1ResponseValidationError{}
+} = ListProgressV1ResponseValidationError{}
 
 // Validate checks the field values on RemoveProgressV1Request with the rules
 // defined in the proto definition for this message. If any rules are
