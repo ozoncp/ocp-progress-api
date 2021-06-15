@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "github.com/envoyproxy/protoc-gen-validate/validate/validate.proto";
+
+option go_package = "github.com/ozoncp/ocp-progress-api/pkg/ocp-progress-api;ocp_progress_api";
+
+package ocp.progress.api;
+
+service OcpProgressApi {
+
+	//  Создаёт новый фрагмент прогресса
+	rpc CreateProgressV1(CreateProgressV1Request) returns (CreateProgressV1Response) {
+		option (google.api.http) = {
+			post: "/Progress/create/v1"
+		};
+	}
+
+	// Возвращает фрагмент прогресса
+	rpc DescribeProgressV1(DescribeProgressV1Request) returns (DescribeProgressV1Response) {
+		option (google.api.http) = {
+			get: "/progress/describe/v1/{progress_id}"
+		};
+    }
+	
+	// Возвращает список фрагментов прогресса
+	rpc ListProgressV1(ListProgressV1Request) returns (ListProgressV1Response) {
+		option (google.api.http) = {
+            get: "/progress/list/v1"
+        };
+	}
+	
+	// Удаляет фрагмент прогресса
+	rpc RemoveProgressV1(RemoveProgressV1Request) returns (RemoveProgressV1Response) {
+		option (google.api.http) = {
+			get: "/progress/remove/v1/{progress_id}"
+		};
+	}
+}
+
+// Создание:
+message CreateProgressV1Request {
+	uint64 classroom_id    = 1;
+	uint64 presentation_id = 2;
+	uint64 slide_id        = 3;
+	uint64 user_id         = 4;
+}
+message CreateProgressV1Response {
+	uint64 id = 1;
+}
+
+// Чтение:
+message DescribeProgressV1Request {
+	uint64 progress_id = 1 [(validate.rules).uint64.gt = 0];
+}
+message DescribeProgressV1Response {
+	Progress progress = 1;
+}
+ 
+// Получение списка:
+message ListProgressV1Request {
+	uint64 limit = 1;
+	uint64 offset = 2;
+}
+message ListProgressV1Response {
+	repeated Progress progress = 1;
+}
+
+// Удаление:
+message RemoveProgressV1Request {
+	uint64 progress_id = 1 [(validate.rules).uint64.gt = 0];
+}
+message RemoveProgressV1Response {
+	bool has_removed = 1;
+}
+
+
+message Progress {
+	uint64 id              = 1;
+	uint64 classroom_id    = 2;
+	uint64 presentation_id = 3;
+	uint64 slide_id        = 4;
+	uint64 user_id         = 5;
+}
+
+
