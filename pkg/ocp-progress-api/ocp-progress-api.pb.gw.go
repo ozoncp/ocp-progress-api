@@ -438,11 +438,11 @@ func RegisterOcpProgressApiHandlerClient(ctx context.Context, mux *runtime.Serve
 var (
 	pattern_OcpProgressApi_CreateProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"Progress", "create", "v1"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_OcpProgressApi_DescribeProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"srogress", "describe", "v1", "progress_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_OcpProgressApi_DescribeProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"progress", "describe", "v1", "progress_id"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_OcpProgressApi_ListProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"srogress", "list", "v1"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_OcpProgressApi_ListProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"progress", "list", "v1"}, "", runtime.AssumeColonVerbOpt(true)))
 
-	pattern_OcpProgressApi_RemoveProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"srogress", "remove", "v1", "progress_id"}, "", runtime.AssumeColonVerbOpt(true)))
+	pattern_OcpProgressApi_RemoveProgressV1_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"progress", "remove", "v1", "progress_id"}, "", runtime.AssumeColonVerbOpt(true)))
 )
 
 var (
