@@ -19,21 +19,21 @@ service OcpProgressApi {
 	// Возвращает фрагмент прогресса
 	rpc DescribeProgressV1(DescribeProgressV1Request) returns (DescribeProgressV1Response) {
 		option (google.api.http) = {
-			get: "/srogress/describe/v1/{progress_id}"
+			get: "/progress/describe/v1/{progress_id}"
 		};
     }
 	
 	// Возвращает список фрагментов прогресса
 	rpc ListProgressV1(ListProgressV1Request) returns (ListProgressV1Response) {
 		option (google.api.http) = {
-            get: "/srogress/list/v1"
+            get: "/progress/list/v1"
         };
 	}
 	
 	// Удаляет фрагмент прогресса
 	rpc RemoveProgressV1(RemoveProgressV1Request) returns (RemoveProgressV1Response) {
 		option (google.api.http) = {
-			get: "/srogress/remove/v1/{progress_id}"
+			get: "/progress/remove/v1/{progress_id}"
 		};
 	}
 }
