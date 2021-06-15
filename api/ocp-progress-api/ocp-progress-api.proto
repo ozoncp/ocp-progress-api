@@ -40,10 +40,10 @@ service OcpProgressApi {
 
 // Создание:
 message CreateProgressV1Request {
-	uint64 classroomId    = 1;
-	uint64 presentationId = 2;
-	uint64 slideId        = 3;
-	uint64 userId         = 4;
+	uint64 classroom_id    = 1;
+	uint64 presentation_id = 2;
+	uint64 slide_id        = 3;
+	uint64 user_id         = 4;
 }
 message CreateProgressV1Response {
 	uint64 id = 1;
@@ -77,10 +77,10 @@ message RemoveProgressV1Response {
 
 message Progress {
 	uint64 id             = 1;
-	uint64 classroomId    = 2;
-	uint64 presentationId = 3;
-	uint64 slideId        = 4;
-	uint64 userId         = 5;
+	uint64 classroom_id    = 2;
+	uint64 presentation_id = 3;
+	uint64 slide_id        = 4;
+	uint64 user_id         = 5;
 }
 
 

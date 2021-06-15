@@ -174,19 +174,19 @@
           "type": "string",
           "format": "uint64"
         },
-        "classroomId": {
+        "classroom_id": {
           "type": "string",
           "format": "uint64"
         },
-        "presentationId": {
+        "presentation_id": {
           "type": "string",
           "format": "uint64"
         },
-        "slideId": {
+        "slide_id": {
           "type": "string",
           "format": "uint64"
         },
-        "userId": {
+        "user_id": {
           "type": "string",
           "format": "uint64"
         }
