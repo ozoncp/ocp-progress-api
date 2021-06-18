@@ -2,6 +2,8 @@ package main
 
 import (
 	"bufio"
+	"context"
+	"database/sql"
 	"errors"
 	"fmt"
 	"io"
@@ -11,6 +13,7 @@ import (
 
 	"github.com/enescakir/emoji"
 	"github.com/ozoncp/ocp-progress-api/core/api"
+	"github.com/ozoncp/ocp-progress-api/core/repo"
 	desc "github.com/ozoncp/ocp-progress-api/pkg/ocp-progress-api"
 	log "github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -21,6 +24,26 @@ const (
 	grpcPort              = 8082
 	mainConfigName string = "config/config.yaml"
 )
+
+func getClassroomRepo() *repo.Repo {
+	const dbName = "ozon"
+	const address = "postgres://postgres:postgres@localhost:5432/" + dbName + "?sslmode=disable"
+
+	db, err := sql.Open("pgx", address)
+	if err != nil {
+		log.Fatal().Err(err).Msg("Failed to open postgres")
+	}
+
+	if err := db.PingContext(context.Background()); err != nil {
+		log.Fatal().Err(err).Msg("Failed to ping postgres")
+	}
+
+	log.Debug().Msgf("Connected to DB %v", dbName)
+
+	classroomRepo := repo.New(db)
+
+	return &classroomRepo
+}
 
 func startGrpc(port int) error {
 	address := ":" + fmt.Sprint(port)
@@ -33,7 +56,7 @@ func startGrpc(port int) error {
 	server := grpc.NewServer()
 	reflection.Register(server)
 
-	api := api.NewOcpProgressApi()
+	api := api.NewOcpProgressApi(*getClassroomRepo())
 	desc.RegisterOcpProgressApiServer(server, api)
 
 	if err := server.Serve(listener); err != nil {

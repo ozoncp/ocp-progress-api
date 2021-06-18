@@ -22,6 +22,7 @@ func New(db *sql.DB) Repo {
 
 type Repo interface {
 	AddProgress(ctx context.Context, progress []progress.Progress) error
+	AddOneProgress(ctx context.Context, progress progress.Progress) (uint64, error)
 	DescribeProgress(ctx context.Context, id uint64) (*progress.Progress, error)
 	RemoveProgress(ctx context.Context, id uint64) error
 	ListProgress(ctx context.Context, limit, offset uint64) ([]progress.Progress, error)
@@ -39,6 +40,21 @@ func (pr *progressRepo) AddProgress(ctx context.Context, progress []progress.Pro
 	_, err := query.ExecContext(ctx)
 
 	return err
+}
+
+func (pr *progressRepo) AddOneProgress(ctx context.Context, progress progress.Progress) (uint64, error) {
+
+	query := sq.Insert(tableName).
+		Columns("classroom_id", "presentation_id", "slide_id", "user_id").
+		RunWith(pr.db).
+		PlaceholderFormat(sq.Dollar)
+
+	err := query.QueryRowContext(ctx).Scan(&progress.Id)
+	if err != nil {
+		return 0, err
+	}
+
+	return progress.Id, nil
 }
 
 func (pr *progressRepo) DescribeProgress(ctx context.Context, id uint64) (*progress.Progress, error) {

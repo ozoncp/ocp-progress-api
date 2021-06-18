@@ -1,6 +1,7 @@
 package flusher_test
 
 import (
+	"context"
 	"errors"
 
 	"github.com/golang/mock/gomock"
@@ -19,10 +20,12 @@ var _ = Describe("Flusher", func() {
 		f             flusher.Flusher
 		toFlush       []progress.Progress
 		failedToFlush []progress.Progress
+		cxt           context.Context
 		chSize        int
 	)
 
 	BeforeEach(func() {
+		cxt = context.TODO()
 		ctrl = gomock.NewController(GinkgoT())
 		mockRepo = mocks.NewMockRepo(ctrl)
 
@@ -42,7 +45,7 @@ var _ = Describe("Flusher", func() {
 			chSize = 2
 			toFlush = []progress.Progress{{}}
 
-			mockRepo.EXPECT().AddProgress(gomock.Any()).Return(nil).MinTimes(1)
+			mockRepo.EXPECT().AddProgress(cxt, gomock.Any()).Return(nil).MinTimes(1)
 		})
 		It("Rez", func() {
 			//Expect(err).Should(BeNil())
@@ -65,7 +68,7 @@ var _ = Describe("Flusher", func() {
 			failedToFlush = toFlush
 			toFlush = []progress.Progress{{}}
 
-			mockRepo.EXPECT().AddProgress(gomock.Any()).Return(errors.New("add prize error")).MinTimes(1)
+			mockRepo.EXPECT().AddProgress(cxt, gomock.Any()).Return(errors.New("add prize error")).MinTimes(1)
 		})
 		It("Errors", func() {
 			//Expect(err).Should(BeNil())
