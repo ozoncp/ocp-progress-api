@@ -12,11 +12,11 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-const (
-	errProjectListEmpty = "not found any projects"
-	errProjectCreate    = "creating project fails"
-	errProjectRemove    = "removing project fails"
-)
+//const (
+//	errProjectListEmpty = "not found any projects"
+//	errProjectCreate    = "creating project fails"
+//	errProjectRemove    = "removing project fails"
+//)
 
 type api struct {
 	desc.UnimplementedOcpProgressApiServer
