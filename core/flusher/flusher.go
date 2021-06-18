@@ -1,6 +1,8 @@
 package flusher
 
 import (
+	"context"
+
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
 	"github.com/ozoncp/ocp-progress-api/internal/utils"
@@ -30,8 +32,9 @@ func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
 		return progressSlice
 	}
 
+	cxt := context.TODO()
 	for index, val := range chunks {
-		if err := f.storage.AddProgress(val); err != nil {
+		if err := f.storage.AddProgress(cxt, val); err != nil {
 			return progressSlice[index*f.chunkSize:]
 		}
 	}

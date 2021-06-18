@@ -3,6 +3,7 @@ module github.com/ozoncp/ocp-progress-api
 go 1.16
 
 require (
+	github.com/Masterminds/squirrel v1.5.0 // indirect
 	github.com/enescakir/emoji v1.0.0
 	github.com/envoyproxy/protoc-gen-validate v0.6.1 // indirect
 	github.com/golang/glog v0.0.0-20210429001901-424d2337a529 // indirect
