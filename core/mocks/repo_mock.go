@@ -5,6 +5,7 @@
 package mocks
 
 import (
+	context "context"
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
@@ -34,60 +35,75 @@ func (m *MockRepo) EXPECT() *MockRepoMockRecorder {
 	return m.recorder
 }
 
-// AddProgress mocks base method.
-func (m *MockRepo) AddProgress(arg0 []progress.Progress) error {
+// AddOneProgress mocks base method.
+func (m *MockRepo) AddOneProgress(arg0 context.Context, arg1 progress.Progress) (uint64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "AddProgress", arg0)
+	ret := m.ctrl.Call(m, "AddOneProgress", arg0, arg1)
+	ret0, _ := ret[0].(uint64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// AddOneProgress indicates an expected call of AddOneProgress.
+func (mr *MockRepoMockRecorder) AddOneProgress(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddOneProgress", reflect.TypeOf((*MockRepo)(nil).AddOneProgress), arg0, arg1)
+}
+
+// AddProgress mocks base method.
+func (m *MockRepo) AddProgress(arg0 context.Context, arg1 []progress.Progress) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "AddProgress", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // AddProgress indicates an expected call of AddProgress.
-func (mr *MockRepoMockRecorder) AddProgress(arg0 interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) AddProgress(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProgress", reflect.TypeOf((*MockRepo)(nil).AddProgress), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddProgress", reflect.TypeOf((*MockRepo)(nil).AddProgress), arg0, arg1)
 }
 
 // DescribeProgress mocks base method.
-func (m *MockRepo) DescribeProgress(arg0 uint64) (*progress.Progress, error) {
+func (m *MockRepo) DescribeProgress(arg0 context.Context, arg1 uint64) (*progress.Progress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "DescribeProgress", arg0)
+	ret := m.ctrl.Call(m, "DescribeProgress", arg0, arg1)
 	ret0, _ := ret[0].(*progress.Progress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // DescribeProgress indicates an expected call of DescribeProgress.
-func (mr *MockRepoMockRecorder) DescribeProgress(arg0 interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) DescribeProgress(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeProgress", reflect.TypeOf((*MockRepo)(nil).DescribeProgress), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "DescribeProgress", reflect.TypeOf((*MockRepo)(nil).DescribeProgress), arg0, arg1)
 }
 
 // ListProgress mocks base method.
-func (m *MockRepo) ListProgress(arg0, arg1 uint64) ([]progress.Progress, error) {
+func (m *MockRepo) ListProgress(arg0 context.Context, arg1, arg2 uint64) ([]progress.Progress, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListProgress", arg0, arg1)
+	ret := m.ctrl.Call(m, "ListProgress", arg0, arg1, arg2)
 	ret0, _ := ret[0].([]progress.Progress)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // ListProgress indicates an expected call of ListProgress.
-func (mr *MockRepoMockRecorder) ListProgress(arg0, arg1 interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) ListProgress(arg0, arg1, arg2 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProgress", reflect.TypeOf((*MockRepo)(nil).ListProgress), arg0, arg1)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListProgress", reflect.TypeOf((*MockRepo)(nil).ListProgress), arg0, arg1, arg2)
 }
 
 // RemoveProgress mocks base method.
-func (m *MockRepo) RemoveProgress(arg0 uint64) error {
+func (m *MockRepo) RemoveProgress(arg0 context.Context, arg1 uint64) error {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "RemoveProgress", arg0)
+	ret := m.ctrl.Call(m, "RemoveProgress", arg0, arg1)
 	ret0, _ := ret[0].(error)
 	return ret0
 }
 
 // RemoveProgress indicates an expected call of RemoveProgress.
-func (mr *MockRepoMockRecorder) RemoveProgress(arg0 interface{}) *gomock.Call {
+func (mr *MockRepoMockRecorder) RemoveProgress(arg0, arg1 interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveProgress", reflect.TypeOf((*MockRepo)(nil).RemoveProgress), arg0)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveProgress", reflect.TypeOf((*MockRepo)(nil).RemoveProgress), arg0, arg1)
 }
