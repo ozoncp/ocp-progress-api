@@ -25,7 +25,7 @@ const (
 	mainConfigName string = "config/config.yaml"
 )
 
-func getClassroomRepo() *repo.Repo {
+func getProgressRepo() *repo.Repo {
 	const dbName = "ozon"
 	const address = "postgres://postgres:postgres@localhost:5432/" + dbName + "?sslmode=disable"
 
@@ -40,9 +40,9 @@ func getClassroomRepo() *repo.Repo {
 
 	log.Debug().Msgf("Connected to DB %v", dbName)
 
-	classroomRepo := repo.New(db)
+	progressRepo := repo.New(db)
 
-	return &classroomRepo
+	return &progressRepo
 }
 
 func startGrpc(port int) error {
@@ -56,7 +56,7 @@ func startGrpc(port int) error {
 	server := grpc.NewServer()
 	reflection.Register(server)
 
-	api := api.NewOcpProgressApi(*getClassroomRepo())
+	api := api.NewOcpProgressApi(*getProgressRepo())
 	desc.RegisterOcpProgressApiServer(server, api)
 
 	if err := server.Serve(listener); err != nil {
