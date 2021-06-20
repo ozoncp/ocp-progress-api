@@ -105,6 +105,28 @@
         ]
       }
     },
+    "/progress/multi/v1": {
+      "post": {
+        "operationId": "OcpProgressApi_MultiCreateProgressV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiMultiCreateProgressV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    },
     "/progress/remove/v1/{progress_id}": {
       "get": {
         "summary": "Удаляет фрагмент прогресса",
@@ -132,6 +154,28 @@
             "format": "uint64"
           }
         ],
+        "tags": [
+          "OcpProgressApi"
+        ]
+      }
+    },
+    "/progress/update/v1": {
+      "post": {
+        "operationId": "OcpProgressApi_UpdateProgressV1",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiUpdateProgressV1Response"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/runtimeError"
+            }
+          }
+        },
         "tags": [
           "OcpProgressApi"
         ]
@@ -167,6 +211,36 @@
         }
       }
     },
+    "apiMultiCreateProgressV1Response": {
+      "type": "object",
+      "properties": {
+        "number_of_progress_created": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
+    "apiNewProgress": {
+      "type": "object",
+      "properties": {
+        "classroom_id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "presentation_id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "slide_id": {
+          "type": "string",
+          "format": "uint64"
+        },
+        "user_id": {
+          "type": "string",
+          "format": "uint64"
+        }
+      }
+    },
     "apiProgress": {
       "type": "object",
       "properties": {
@@ -196,6 +270,14 @@
       "type": "object",
       "properties": {
         "has_removed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "apiUpdateProgressV1Response": {
+      "type": "object",
+      "properties": {
+        "found": {
           "type": "boolean"
         }
       }
