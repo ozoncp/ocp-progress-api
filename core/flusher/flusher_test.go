@@ -7,6 +7,7 @@ import (
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/ozoncp/ocp-progress-api/core/flusher"
 	"github.com/ozoncp/ocp-progress-api/core/mocks"
 	"github.com/ozoncp/ocp-progress-api/core/progress"
@@ -20,20 +21,25 @@ var _ = Describe("Flusher", func() {
 		f             flusher.Flusher
 		toFlush       []progress.Progress
 		failedToFlush []progress.Progress
-		cxt           context.Context
+		ctx           context.Context
 		chSize        int
 	)
 
 	BeforeEach(func() {
-		cxt = context.TODO()
+		ctx = context.TODO()
 		ctrl = gomock.NewController(GinkgoT())
 		mockRepo = mocks.NewMockRepo(ctrl)
 
 	})
 
 	JustBeforeEach(func() {
+
+		tracer := opentracing.GlobalTracer()
+		span := tracer.StartSpan("JustBeforeEach")
+		defer span.Finish()
+
 		f = flusher.New(mockRepo, chSize)
-		failedToFlush = f.Flush(toFlush)
+		failedToFlush = f.Flush(ctx, span, toFlush)
 	})
 
 	AfterEach(func() {
@@ -45,7 +51,7 @@ var _ = Describe("Flusher", func() {
 			chSize = 2
 			toFlush = []progress.Progress{{}}
 
-			mockRepo.EXPECT().AddProgress(cxt, gomock.Any()).Return(nil).MinTimes(1)
+			mockRepo.EXPECT().AddProgress(ctx, gomock.Any()).Return(nil).MinTimes(1)
 		})
 		It("Rez", func() {
 			//Expect(err).Should(BeNil())
@@ -68,7 +74,7 @@ var _ = Describe("Flusher", func() {
 			failedToFlush = toFlush
 			toFlush = []progress.Progress{{}}
 
-			mockRepo.EXPECT().AddProgress(cxt, gomock.Any()).Return(errors.New("add prize error")).MinTimes(1)
+			mockRepo.EXPECT().AddProgress(ctx, gomock.Any()).Return(errors.New("add prize error")).MinTimes(1)
 		})
 		It("Errors", func() {
 			//Expect(err).Should(BeNil())

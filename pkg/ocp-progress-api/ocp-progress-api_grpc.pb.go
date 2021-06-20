@@ -22,7 +22,9 @@ type OcpProgressApiClient interface {
 	CreateProgressV1(ctx context.Context, in *CreateProgressV1Request, opts ...grpc.CallOption) (*CreateProgressV1Response, error)
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(ctx context.Context, in *DescribeProgressV1Request, opts ...grpc.CallOption) (*DescribeProgressV1Response, error)
+	// Создает множество
 	MultiCreateProgressV1(ctx context.Context, in *MultiCreateProgressV1Request, opts ...grpc.CallOption) (*MultiCreateProgressV1Response, error)
+	// Обновляет данные
 	UpdateProgressV1(ctx context.Context, in *UpdateProgressV1Request, opts ...grpc.CallOption) (*UpdateProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
 	ListProgressV1(ctx context.Context, in *ListProgressV1Request, opts ...grpc.CallOption) (*ListProgressV1Response, error)
@@ -100,7 +102,9 @@ type OcpProgressApiServer interface {
 	CreateProgressV1(context.Context, *CreateProgressV1Request) (*CreateProgressV1Response, error)
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(context.Context, *DescribeProgressV1Request) (*DescribeProgressV1Response, error)
+	// Создает множество
 	MultiCreateProgressV1(context.Context, *MultiCreateProgressV1Request) (*MultiCreateProgressV1Response, error)
+	// Обновляет данные
 	UpdateProgressV1(context.Context, *UpdateProgressV1Request) (*UpdateProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
 	ListProgressV1(context.Context, *ListProgressV1Request) (*ListProgressV1Response, error)

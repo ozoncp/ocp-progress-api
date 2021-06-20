@@ -3,13 +3,14 @@ package flusher
 import (
 	"context"
 
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
 	"github.com/ozoncp/ocp-progress-api/internal/utils"
 )
 
 type Flusher interface {
-	Flush(notes []progress.Progress) []progress.Progress
+	Flush(ctx context.Context, span opentracing.Span, notes []progress.Progress) []progress.Progress
 }
 
 type flusher struct {
@@ -24,7 +25,7 @@ func New(storage repo.Repo, chSize int) Flusher {
 	}
 }
 
-func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
+func (f *flusher) Flush(ctx context.Context, span opentracing.Span, progressSlice []progress.Progress) []progress.Progress {
 
 	chunks, err := utils.SplitToBulks(progressSlice, f.chunkSize)
 
@@ -32,9 +33,8 @@ func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
 		return progressSlice
 	}
 
-	cxt := context.TODO()
 	for index, val := range chunks {
-		if err := f.storage.AddProgress(cxt, val); err != nil {
+		if err := f.storage.AddProgress(ctx, val); err != nil {
 			return progressSlice[index*f.chunkSize:]
 		}
 	}

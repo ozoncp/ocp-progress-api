@@ -1,10 +1,12 @@
 package saver
 
 import (
+	"context"
 	"errors"
 	"log"
 	"time"
 
+	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/ozoncp/ocp-progress-api/core/flusher"
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 )
@@ -88,7 +90,12 @@ func (s *saver) addProgressData(progressTmp progress.Progress) {
 }
 
 func (s *saver) flushData() {
-	flushResult := s.flusher.Flush(s.progressSlice)
+	tracer := opentracing.GlobalTracer()
+	span := tracer.StartSpan("MultiCreateProgressV1")
+	defer span.Finish()
+
+	ctx := context.TODO()
+	flushResult := s.flusher.Flush(ctx, span, s.progressSlice)
 
 	if flushResult != nil {
 		log.Print("SAVER: Failed to flush")

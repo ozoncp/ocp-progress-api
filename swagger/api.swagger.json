@@ -107,6 +107,7 @@
     },
     "/progress/multi/v1": {
       "post": {
+        "summary": "Создает множество",
         "operationId": "OcpProgressApi_MultiCreateProgressV1",
         "responses": {
           "200": {
@@ -161,6 +162,7 @@
     },
     "/progress/update/v1": {
       "post": {
+        "summary": "Обновляет данные",
         "operationId": "OcpProgressApi_UpdateProgressV1",
         "responses": {
           "200": {
