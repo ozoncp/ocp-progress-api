@@ -27,6 +27,7 @@ service OcpProgressApi {
 	rpc MultiCreateProgressV1(MultiCreateProgressV1Request) returns (MultiCreateProgressV1Response) {
 		option (google.api.http) = {
 			post: "/progress/multi/v1"
+			body: "*"
 		};
 	}
 
@@ -34,6 +35,7 @@ service OcpProgressApi {
 	rpc UpdateProgressV1(UpdateProgressV1Request) returns (UpdateProgressV1Response) {
 		option (google.api.http) = {
 			post: "/progress/update/v1"
+			body: "*"
 		};
 	}
 	
