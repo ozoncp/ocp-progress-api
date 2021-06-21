@@ -28,31 +28,27 @@ type LogProducer interface {
 	Send(evType ProgressEventType, req, res interface{}, err error) error
 }
 
-const (
-	KafkaTopic = "events"
-
-	capacity = 128
-)
-
 type logProducer struct {
+	kafkaTopic   string
 	syncProducer sarama.SyncProducer
 
 	messagesCh chan *sarama.ProducerMessage
 }
 
-func New(ctx context.Context, broker string) (LogProducer, error) {
+func New(ctx context.Context, broker []string, kafkaTopic string, capacity int) (LogProducer, error) {
 
 	config := sarama.NewConfig()
 	config.Producer.Partitioner = sarama.NewRandomPartitioner
 	config.Producer.RequiredAcks = sarama.WaitForAll
 	config.Producer.Return.Successes = true
 
-	producer, err := sarama.NewSyncProducer([]string{broker}, config)
+	producer, err := sarama.NewSyncProducer(broker /*[]string{broker}*/, config)
 	if err != nil {
 		return nil, err
 	}
 
 	lp := &logProducer{
+		kafkaTopic:   kafkaTopic,
 		syncProducer: producer,
 		messagesCh:   make(chan *sarama.ProducerMessage, capacity)}
 
@@ -86,7 +82,7 @@ func (lp *logProducer) Send(evType ProgressEventType, req, res interface{}, err 
 	}
 
 	lp.messagesCh <- &sarama.ProducerMessage{
-		Topic:     KafkaTopic,
+		Topic:     lp.kafkaTopic,
 		Partition: -1,
 		Value:     sarama.StringEncoder(b),
 	}

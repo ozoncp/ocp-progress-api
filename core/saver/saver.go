@@ -95,7 +95,9 @@ func (s *saver) flushData() {
 	defer span.Finish()
 
 	ctx := context.TODO()
-	flushResult := s.flusher.Flush(ctx, span, s.progressSlice)
+	ctxSpan := opentracing.ContextWithSpan(ctx, span)
+
+	flushResult := s.flusher.Flush(ctxSpan, s.progressSlice)
 
 	if flushResult != nil {
 		log.Print("SAVER: Failed to flush")

@@ -14,6 +14,7 @@ import (
 	"github.com/enescakir/emoji"
 	"github.com/ozoncp/ocp-progress-api/core/api"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
+	"github.com/ozoncp/ocp-progress-api/internal/producer"
 	desc "github.com/ozoncp/ocp-progress-api/pkg/ocp-progress-api"
 	log "github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
@@ -23,6 +24,7 @@ import (
 const (
 	grpcPort              = 8082
 	mainConfigName string = "config/config.yaml"
+	kafkaBroker    string = `env:"KAFKA_BROKER" envDefault:"127.0.0.1:9094"`
 )
 
 func getProgressRepo() *repo.Repo {
@@ -56,7 +58,14 @@ func startGrpc(port int) error {
 	server := grpc.NewServer()
 	reflection.Register(server)
 
-	api := api.NewOcpProgressApi(*getProgressRepo())
+	ctx := context.Background()
+
+	LogProducer, err := producer.New(ctx, []string{kafkaBroker}, "events", 128)
+	if err != nil {
+		return fmt.Errorf("failed to start LogProducer: %v", err)
+	}
+
+	api := api.NewOcpProgressApi(*getProgressRepo(), LogProducer)
 	desc.RegisterOcpProgressApiServer(server, api)
 
 	if err := server.Serve(listener); err != nil {

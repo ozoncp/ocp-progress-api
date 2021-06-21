@@ -32,10 +32,12 @@ type api struct {
 	logProducer  producer.LogProducer
 }
 
-func NewOcpProgressApi(progressRepo repo.Repo) desc.OcpProgressApiServer {
+func NewOcpProgressApi(progressRepo repo.Repo,
+	logProducer producer.LogProducer) desc.OcpProgressApiServer {
 	return &api{
 		UnimplementedOcpProgressApiServer: desc.UnimplementedOcpProgressApiServer{},
 		progressRepo:                      progressRepo,
+		logProducer:                       logProducer,
 	}
 }
 
@@ -175,6 +177,8 @@ func (a *api) MultiCreateProgressV1(
 	span := tracer.StartSpan("MultiCreateProgressV1")
 	defer span.Finish()
 
+	ctxSpan := opentracing.ContextWithSpan(ctx, span)
+
 	if err = req.Validate(); err != nil {
 
 		err = status.Error(codes.InvalidArgument, err.Error())
@@ -194,7 +198,7 @@ func (a *api) MultiCreateProgressV1(
 	}
 
 	fl := flusher.New(a.progressRepo, chunkSize)
-	remainingProgress := fl.Flush(ctx, span, progressSlice)
+	remainingProgress := fl.Flush(ctxSpan, progressSlice)
 
 	var createdCount = uint64(len(progressSlice) - len(remainingProgress))
 	if createdCount == 0 {

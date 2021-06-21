@@ -5,21 +5,21 @@ import "github.com/prometheus/client_golang/prometheus"
 var createCounter = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Name: "create_counter",
-		Help: "Number of created classrooms",
+		Help: "Number of created progress information ",
 	},
 )
 
 var updateCounter = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Name: "update_counter",
-		Help: "Number of updated classrooms",
+		Help: "Number of updated progress information",
 	},
 )
 
 var removeCounter = prometheus.NewCounter(
 	prometheus.CounterOpts{
 		Name: "remove_counter",
-		Help: "Number of removed classrooms",
+		Help: "Number of removed progress information",
 	},
 )
 

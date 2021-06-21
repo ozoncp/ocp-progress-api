@@ -7,7 +7,6 @@ import (
 	"github.com/golang/mock/gomock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	opentracing "github.com/opentracing/opentracing-go"
 	"github.com/ozoncp/ocp-progress-api/core/flusher"
 	"github.com/ozoncp/ocp-progress-api/core/mocks"
 	"github.com/ozoncp/ocp-progress-api/core/progress"
@@ -34,12 +33,8 @@ var _ = Describe("Flusher", func() {
 
 	JustBeforeEach(func() {
 
-		tracer := opentracing.GlobalTracer()
-		span := tracer.StartSpan("JustBeforeEach")
-		defer span.Finish()
-
 		f = flusher.New(mockRepo, chSize)
-		failedToFlush = f.Flush(ctx, span, toFlush)
+		failedToFlush = f.Flush(ctx, toFlush)
 	})
 
 	AfterEach(func() {
