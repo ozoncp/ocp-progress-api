@@ -26,6 +26,7 @@ type Repo interface {
 	DescribeProgress(ctx context.Context, id uint64) (*progress.Progress, error)
 	RemoveProgress(ctx context.Context, id uint64) error
 	ListProgress(ctx context.Context, limit, offset uint64) ([]progress.Progress, error)
+	UpdateClassroom(ctx context.Context, progress progress.Progress) (bool, error)
 }
 
 func (pr *progressRepo) AddProgress(ctx context.Context, progress []progress.Progress) error {
@@ -116,4 +117,27 @@ func (pr *progressRepo) ListProgress(ctx context.Context, limit, offset uint64) 
 	}
 
 	return progressSlice, nil
+}
+
+func (pr *progressRepo) UpdateClassroom(ctx context.Context, progress progress.Progress) (bool, error) {
+	query := sq.Update(tableName).
+		Set("classroom_id", progress.ClassroomId).
+		Set("presentation_id", progress.PresentationId).
+		Set("slide_id", progress.SlideId).
+		Set("user_id", progress.UserId).
+		Where(sq.Eq{"id": progress.Id}).
+		RunWith(pr.db).
+		PlaceholderFormat(sq.Dollar)
+
+	result, err := query.ExecContext(ctx)
+	if err != nil {
+		return false, err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, err
+	}
+
+	return rowsAffected > 0, nil
 }

@@ -22,6 +22,10 @@ type OcpProgressApiClient interface {
 	CreateProgressV1(ctx context.Context, in *CreateProgressV1Request, opts ...grpc.CallOption) (*CreateProgressV1Response, error)
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(ctx context.Context, in *DescribeProgressV1Request, opts ...grpc.CallOption) (*DescribeProgressV1Response, error)
+	// Создает множество
+	MultiCreateProgressV1(ctx context.Context, in *MultiCreateProgressV1Request, opts ...grpc.CallOption) (*MultiCreateProgressV1Response, error)
+	// Обновляет данные
+	UpdateProgressV1(ctx context.Context, in *UpdateProgressV1Request, opts ...grpc.CallOption) (*UpdateProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
 	ListProgressV1(ctx context.Context, in *ListProgressV1Request, opts ...grpc.CallOption) (*ListProgressV1Response, error)
 	// Удаляет фрагмент прогресса
@@ -54,6 +58,24 @@ func (c *ocpProgressApiClient) DescribeProgressV1(ctx context.Context, in *Descr
 	return out, nil
 }
 
+func (c *ocpProgressApiClient) MultiCreateProgressV1(ctx context.Context, in *MultiCreateProgressV1Request, opts ...grpc.CallOption) (*MultiCreateProgressV1Response, error) {
+	out := new(MultiCreateProgressV1Response)
+	err := c.cc.Invoke(ctx, "/ocp.progress.api.OcpProgressApi/MultiCreateProgressV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *ocpProgressApiClient) UpdateProgressV1(ctx context.Context, in *UpdateProgressV1Request, opts ...grpc.CallOption) (*UpdateProgressV1Response, error) {
+	out := new(UpdateProgressV1Response)
+	err := c.cc.Invoke(ctx, "/ocp.progress.api.OcpProgressApi/UpdateProgressV1", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *ocpProgressApiClient) ListProgressV1(ctx context.Context, in *ListProgressV1Request, opts ...grpc.CallOption) (*ListProgressV1Response, error) {
 	out := new(ListProgressV1Response)
 	err := c.cc.Invoke(ctx, "/ocp.progress.api.OcpProgressApi/ListProgressV1", in, out, opts...)
@@ -80,6 +102,10 @@ type OcpProgressApiServer interface {
 	CreateProgressV1(context.Context, *CreateProgressV1Request) (*CreateProgressV1Response, error)
 	// Возвращает фрагмент прогресса
 	DescribeProgressV1(context.Context, *DescribeProgressV1Request) (*DescribeProgressV1Response, error)
+	// Создает множество
+	MultiCreateProgressV1(context.Context, *MultiCreateProgressV1Request) (*MultiCreateProgressV1Response, error)
+	// Обновляет данные
+	UpdateProgressV1(context.Context, *UpdateProgressV1Request) (*UpdateProgressV1Response, error)
 	// Возвращает список фрагментов прогресса
 	ListProgressV1(context.Context, *ListProgressV1Request) (*ListProgressV1Response, error)
 	// Удаляет фрагмент прогресса
@@ -96,6 +122,12 @@ func (UnimplementedOcpProgressApiServer) CreateProgressV1(context.Context, *Crea
 }
 func (UnimplementedOcpProgressApiServer) DescribeProgressV1(context.Context, *DescribeProgressV1Request) (*DescribeProgressV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeProgressV1 not implemented")
+}
+func (UnimplementedOcpProgressApiServer) MultiCreateProgressV1(context.Context, *MultiCreateProgressV1Request) (*MultiCreateProgressV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MultiCreateProgressV1 not implemented")
+}
+func (UnimplementedOcpProgressApiServer) UpdateProgressV1(context.Context, *UpdateProgressV1Request) (*UpdateProgressV1Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProgressV1 not implemented")
 }
 func (UnimplementedOcpProgressApiServer) ListProgressV1(context.Context, *ListProgressV1Request) (*ListProgressV1Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListProgressV1 not implemented")
@@ -152,6 +184,42 @@ func _OcpProgressApi_DescribeProgressV1_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OcpProgressApi_MultiCreateProgressV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MultiCreateProgressV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OcpProgressApiServer).MultiCreateProgressV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ocp.progress.api.OcpProgressApi/MultiCreateProgressV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OcpProgressApiServer).MultiCreateProgressV1(ctx, req.(*MultiCreateProgressV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _OcpProgressApi_UpdateProgressV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProgressV1Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OcpProgressApiServer).UpdateProgressV1(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ocp.progress.api.OcpProgressApi/UpdateProgressV1",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OcpProgressApiServer).UpdateProgressV1(ctx, req.(*UpdateProgressV1Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OcpProgressApi_ListProgressV1_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListProgressV1Request)
 	if err := dec(in); err != nil {
@@ -202,6 +270,14 @@ var OcpProgressApi_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeProgressV1",
 			Handler:    _OcpProgressApi_DescribeProgressV1_Handler,
+		},
+		{
+			MethodName: "MultiCreateProgressV1",
+			Handler:    _OcpProgressApi_MultiCreateProgressV1_Handler,
+		},
+		{
+			MethodName: "UpdateProgressV1",
+			Handler:    _OcpProgressApi_UpdateProgressV1_Handler,
 		},
 		{
 			MethodName: "ListProgressV1",

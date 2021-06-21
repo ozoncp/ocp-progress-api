@@ -9,7 +9,7 @@ import (
 )
 
 type Flusher interface {
-	Flush(notes []progress.Progress) []progress.Progress
+	Flush(ctx context.Context, notes []progress.Progress) []progress.Progress
 }
 
 type flusher struct {
@@ -24,7 +24,7 @@ func New(storage repo.Repo, chSize int) Flusher {
 	}
 }
 
-func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
+func (f *flusher) Flush(ctx context.Context, progressSlice []progress.Progress) []progress.Progress {
 
 	chunks, err := utils.SplitToBulks(progressSlice, f.chunkSize)
 
@@ -32,9 +32,9 @@ func (f *flusher) Flush(progressSlice []progress.Progress) []progress.Progress {
 		return progressSlice
 	}
 
-	cxt := context.TODO()
 	for index, val := range chunks {
-		if err := f.storage.AddProgress(cxt, val); err != nil {
+
+		if err := f.storage.AddProgress(ctx, val); err != nil {
 			return progressSlice[index*f.chunkSize:]
 		}
 	}

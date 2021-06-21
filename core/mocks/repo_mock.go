@@ -107,3 +107,18 @@ func (mr *MockRepoMockRecorder) RemoveProgress(arg0, arg1 interface{}) *gomock.C
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "RemoveProgress", reflect.TypeOf((*MockRepo)(nil).RemoveProgress), arg0, arg1)
 }
+
+// UpdateClassroom mocks base method.
+func (m *MockRepo) UpdateClassroom(arg0 context.Context, arg1 progress.Progress) (bool, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "UpdateClassroom", arg0, arg1)
+	ret0, _ := ret[0].(bool)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// UpdateClassroom indicates an expected call of UpdateClassroom.
+func (mr *MockRepoMockRecorder) UpdateClassroom(arg0, arg1 interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "UpdateClassroom", reflect.TypeOf((*MockRepo)(nil).UpdateClassroom), arg0, arg1)
+}

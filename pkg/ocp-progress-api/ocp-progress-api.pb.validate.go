@@ -481,6 +481,159 @@ var _ interface {
 	ErrorName() string
 } = ListProgressV1ResponseValidationError{}
 
+// Validate checks the field values on MultiCreateProgressV1Request with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *MultiCreateProgressV1Request) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	for idx, item := range m.GetProgress() {
+		_, _ = idx, item
+
+		if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return MultiCreateProgressV1RequestValidationError{
+					field:  fmt.Sprintf("Progress[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// MultiCreateProgressV1RequestValidationError is the validation error returned
+// by MultiCreateProgressV1Request.Validate if the designated constraints
+// aren't met.
+type MultiCreateProgressV1RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e MultiCreateProgressV1RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e MultiCreateProgressV1RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e MultiCreateProgressV1RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e MultiCreateProgressV1RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e MultiCreateProgressV1RequestValidationError) ErrorName() string {
+	return "MultiCreateProgressV1RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e MultiCreateProgressV1RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sMultiCreateProgressV1Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = MultiCreateProgressV1RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = MultiCreateProgressV1RequestValidationError{}
+
+// Validate checks the field values on MultiCreateProgressV1Response with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *MultiCreateProgressV1Response) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for NumberOfProgressCreated
+
+	return nil
+}
+
+// MultiCreateProgressV1ResponseValidationError is the validation error
+// returned by MultiCreateProgressV1Response.Validate if the designated
+// constraints aren't met.
+type MultiCreateProgressV1ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e MultiCreateProgressV1ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e MultiCreateProgressV1ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e MultiCreateProgressV1ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e MultiCreateProgressV1ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e MultiCreateProgressV1ResponseValidationError) ErrorName() string {
+	return "MultiCreateProgressV1ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e MultiCreateProgressV1ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sMultiCreateProgressV1Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = MultiCreateProgressV1ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = MultiCreateProgressV1ResponseValidationError{}
+
 // Validate checks the field values on RemoveProgressV1Request with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, an error is returned.
@@ -624,6 +777,152 @@ var _ interface {
 	ErrorName() string
 } = RemoveProgressV1ResponseValidationError{}
 
+// Validate checks the field values on UpdateProgressV1Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *UpdateProgressV1Request) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	if v, ok := interface{}(m.GetNote()).(interface{ Validate() error }); ok {
+		if err := v.Validate(); err != nil {
+			return UpdateProgressV1RequestValidationError{
+				field:  "Note",
+				reason: "embedded message failed validation",
+				cause:  err,
+			}
+		}
+	}
+
+	return nil
+}
+
+// UpdateProgressV1RequestValidationError is the validation error returned by
+// UpdateProgressV1Request.Validate if the designated constraints aren't met.
+type UpdateProgressV1RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProgressV1RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProgressV1RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProgressV1RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProgressV1RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProgressV1RequestValidationError) ErrorName() string {
+	return "UpdateProgressV1RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProgressV1RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProgressV1Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProgressV1RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProgressV1RequestValidationError{}
+
+// Validate checks the field values on UpdateProgressV1Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, an error is returned.
+func (m *UpdateProgressV1Response) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for Found
+
+	return nil
+}
+
+// UpdateProgressV1ResponseValidationError is the validation error returned by
+// UpdateProgressV1Response.Validate if the designated constraints aren't met.
+type UpdateProgressV1ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e UpdateProgressV1ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e UpdateProgressV1ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e UpdateProgressV1ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e UpdateProgressV1ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e UpdateProgressV1ResponseValidationError) ErrorName() string {
+	return "UpdateProgressV1ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e UpdateProgressV1ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sUpdateProgressV1Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = UpdateProgressV1ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = UpdateProgressV1ResponseValidationError{}
+
 // Validate checks the field values on Progress with the rules defined in the
 // proto definition for this message. If any rules are violated, an error is returned.
 func (m *Progress) Validate() error {
@@ -697,3 +996,76 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ProgressValidationError{}
+
+// Validate checks the field values on NewProgress with the rules defined in
+// the proto definition for this message. If any rules are violated, an error
+// is returned.
+func (m *NewProgress) Validate() error {
+	if m == nil {
+		return nil
+	}
+
+	// no validation rules for ClassroomId
+
+	// no validation rules for PresentationId
+
+	// no validation rules for SlideId
+
+	// no validation rules for UserId
+
+	return nil
+}
+
+// NewProgressValidationError is the validation error returned by
+// NewProgress.Validate if the designated constraints aren't met.
+type NewProgressValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e NewProgressValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e NewProgressValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e NewProgressValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e NewProgressValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e NewProgressValidationError) ErrorName() string { return "NewProgressValidationError" }
+
+// Error satisfies the builtin error interface
+func (e NewProgressValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sNewProgress.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = NewProgressValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = NewProgressValidationError{}

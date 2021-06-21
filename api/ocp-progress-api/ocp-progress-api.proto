@@ -22,6 +22,22 @@ service OcpProgressApi {
 			get: "/progress/describe/v1/{progress_id}"
 		};
     }
+
+	// Создает множество
+	rpc MultiCreateProgressV1(MultiCreateProgressV1Request) returns (MultiCreateProgressV1Response) {
+		option (google.api.http) = {
+			post: "/progress/multi/v1"
+			body: "*"
+		};
+	}
+
+	// Обновляет данные 
+	rpc UpdateProgressV1(UpdateProgressV1Request) returns (UpdateProgressV1Response) {
+		option (google.api.http) = {
+			post: "/progress/update/v1"
+			body: "*"
+		};
+	}
 	
 	// Возвращает список фрагментов прогресса
 	rpc ListProgressV1(ListProgressV1Request) returns (ListProgressV1Response) {
@@ -62,9 +78,19 @@ message ListProgressV1Request {
 	uint64 limit = 1;
 	uint64 offset = 2;
 }
+
 message ListProgressV1Response {
 	repeated Progress progress = 1;
 }
+
+message MultiCreateProgressV1Request {
+	repeated NewProgress progress = 1;
+}
+
+message MultiCreateProgressV1Response {
+	uint64 number_of_progress_created = 1;
+}
+
 
 // Удаление:
 message RemoveProgressV1Request {
@@ -75,12 +101,29 @@ message RemoveProgressV1Response {
 }
 
 
+message UpdateProgressV1Request {
+	Progress note = 1;
+}
+
+message UpdateProgressV1Response {
+	bool found = 1;
+}
+
+
+
 message Progress {
 	uint64 id              = 1;
 	uint64 classroom_id    = 2;
 	uint64 presentation_id = 3;
 	uint64 slide_id        = 4;
 	uint64 user_id         = 5;
+}
+
+message NewProgress {
+	uint64 classroom_id    = 1;
+	uint64 presentation_id = 2;
+	uint64 slide_id        = 3;
+	uint64 user_id         = 4;
 }
 
 

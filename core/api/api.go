@@ -2,11 +2,17 @@ package api
 
 import (
 	"context"
+	"errors"
 
 	"github.com/rs/zerolog/log"
 
+	opentracing "github.com/opentracing/opentracing-go"
+	"github.com/ozoncp/ocp-progress-api/core/flusher"
 	"github.com/ozoncp/ocp-progress-api/core/progress"
 	"github.com/ozoncp/ocp-progress-api/core/repo"
+	"github.com/ozoncp/ocp-progress-api/internal/metrics"
+	"github.com/ozoncp/ocp-progress-api/internal/producer"
+	"github.com/ozoncp/ocp-progress-api/internal/utils"
 	desc "github.com/ozoncp/ocp-progress-api/pkg/ocp-progress-api"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -18,15 +24,20 @@ import (
 //	errProjectRemove    = "removing project fails"
 //)
 
+const chunkSize int = 10
+
 type api struct {
 	desc.UnimplementedOcpProgressApiServer
 	progressRepo repo.Repo
+	logProducer  producer.LogProducer
 }
 
-func NewOcpProgressApi(progressRepo repo.Repo) desc.OcpProgressApiServer {
+func NewOcpProgressApi(progressRepo repo.Repo,
+	logProducer producer.LogProducer) desc.OcpProgressApiServer {
 	return &api{
 		UnimplementedOcpProgressApiServer: desc.UnimplementedOcpProgressApiServer{},
 		progressRepo:                      progressRepo,
+		logProducer:                       logProducer,
 	}
 }
 
@@ -89,7 +100,7 @@ func (a *api) DescribeProgressV1(
 
 	//err := status.Error(codes.NotFound, errProjectCreate)
 
-	return &desc.DescribeProgressV1Response{Progress: progress.ToProtoClassroom()}, nil
+	return &desc.DescribeProgressV1Response{Progress: progress.ToProtoProgress()}, nil
 }
 
 func (a *api) ListProgressV1(
@@ -114,7 +125,7 @@ func (a *api) ListProgressV1(
 	var protoProgress []*desc.Progress
 
 	for _, progress := range progress {
-		protoProgress = append(protoProgress, progress.ToProtoClassroom())
+		protoProgress = append(protoProgress, progress.ToProtoProgress())
 	}
 
 	log.Info().
@@ -152,4 +163,84 @@ func (a *api) RemoveProgressV1(
 	//err := status.Error(codes.NotFound, errProjectRemove)
 	return &desc.RemoveProgressV1Response{HasRemoved: true}, nil
 
+}
+
+func (a *api) MultiCreateProgressV1(
+	ctx context.Context,
+	req *desc.MultiCreateProgressV1Request) (
+	res *desc.MultiCreateProgressV1Response,
+	err error) {
+
+	defer utils.LogGrpcCall("MultiCreateProgressV1", &req, &res, &err)
+
+	tracer := opentracing.GlobalTracer()
+	span := tracer.StartSpan("MultiCreateProgressV1")
+	defer span.Finish()
+
+	ctxSpan := opentracing.ContextWithSpan(ctx, span)
+
+	if err = req.Validate(); err != nil {
+
+		err = status.Error(codes.InvalidArgument, err.Error())
+		return nil, err
+	}
+
+	var progressSlice []progress.Progress
+	for _, protoProgress := range req.Progress {
+
+		progressSlice = append(progressSlice, progress.Progress{
+			Id:             0,
+			ClassroomId:    uint(protoProgress.ClassroomId),
+			PresentationId: uint(protoProgress.PresentationId),
+			SlideId:        uint(protoProgress.SlideId),
+			UserId:         uint(protoProgress.UserId),
+		})
+	}
+
+	fl := flusher.New(a.progressRepo, chunkSize)
+	remainingProgress := fl.Flush(ctxSpan, progressSlice)
+
+	var createdCount = uint64(len(progressSlice) - len(remainingProgress))
+	if createdCount == 0 {
+
+		err = status.Error(codes.Unavailable, errors.New("flush call returned non nil result").Error())
+		return nil, err
+	}
+
+	res = &desc.MultiCreateProgressV1Response{NumberOfProgressCreated: createdCount}
+	return res, nil
+}
+
+func (a *api) UpdateProgressroomV1(
+	ctx context.Context,
+	req *desc.UpdateProgressV1Request) (
+	res *desc.UpdateProgressV1Response,
+	err error) {
+
+	defer utils.LogGrpcCall("UpdateProgressroomV1", &req, &res, &err)
+	defer func() {
+		_ = a.logProducer.Send(producer.Updated, req, res, err)
+	}()
+
+	if err = req.Validate(); err != nil {
+
+		err = status.Error(codes.InvalidArgument, err.Error())
+		return nil, err
+	}
+
+	progressFrom := progress.FromProtoProgress(req.Note)
+
+	found, err := a.progressRepo.UpdateClassroom(ctx, *progressFrom)
+	if err != nil {
+
+		err = status.Error(codes.Unavailable, err.Error())
+		return nil, err
+	}
+
+	if bool(found) {
+		metrics.IncUpdateCounter()
+	}
+
+	res = &desc.UpdateProgressV1Response{Found: found}
+	return res, nil
 }
